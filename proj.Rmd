@@ -1,0 +1,88 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(lubridate)
+
+#setting working directory
+#setwd("C:/Users/waelb/Desktop/Wael/Master 1 CMI ISI 2019-2020/S8/TER/tidy/mini_proj")
+
+#reading data
+dat <- read_csv2("data_ulule_2019.csv")
+head(dat)
+```
+
+
+
+
+```{r}
+#exclure les campagnes annulées
+
+dat <- dat %>% filter(is_cancelled==FALSE)
+
+```
+
+```{r}
+#Se restreindre au périmètre des 8 pays ayant le plus de campagnes au total
+
+#identifier les pays ayant le plus de campagnes
+dat %>% count(country,sort=TRUE)
+
+#garder les enregistrements en provenance de ces pays
+most_camp_countries <- c("FR","BE","IT","CA","ES","CH","DE","GB")
+dat <- dat %>% filter(country %in% most_camp_countries)
+
+```
+
+```{r}
+
+
+dat <- dat %>% filter( year(date_start) < 2020 )
+
+```
+
+  
+```{r}
+
+#get different levels of currency
+unique(dat$currency) # returns {EUR CAD GBP USD CHF}
+
+
+#initialize new column with value 0
+dat$amount_raised_eur <- 0
+
+
+#initialize exchange rates (from XXX to EUR)
+rate_AUD = 0.56
+rate_CAD = 0.64
+rate_CHF = 0.95
+rate_EUR = 1
+rate_GBP = 1.13
+rate_USD = 0.89
+
+#AUD to EUR
+dat <- within(dat, amount_raised_eur[currency=="AUD"] <- floor(amount_raised[currency=="AUD"] * rate_AUD))
+
+#CAD to EUR
+dat <- within(dat, amount_raised_eur[currency=="CAD"] <- floor(amount_raised[currency=="CAD"] * rate_CAD))
+
+#CHF to EUR
+dat <- within(dat, amount_raised_eur[currency=="CHF"] <- floor(amount_raised[currency=="CHF"] * rate_CHF))
+
+#EUR to EUR
+dat <- within(dat, amount_raised_eur[currency=="EUR"] <- floor(amount_raised[currency=="EUR"] * rate_EUR))
+
+#GBP to EUR
+dat <- within(dat, amount_raised_eur[currency=="GBP"] <- floor(amount_raised[currency=="GBP"] * rate_GBP))
+
+#USD to EUR
+dat <- within(dat, amount_raised_eur[currency=="USD"] <- floor(amount_raised[currency=="USD"] * rate_USD))
+
+```
+
+```{r}
+write.csv2(dat,"data_ulule_2019_managed.csv")
+```
