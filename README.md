@@ -23,6 +23,8 @@ The graph interactions work similarily on all three graph pages : You can filter
 
 For example, upon taking a look at the previous result (average amount raised by "Game" projects in 2017), we promptly notice that that September was an exceptionnally successful month for that year. A closer look to the data reveals that a certain project raised more than 1380% of its original goal (90 000 euros) - a whopping 1 247 000 euros ! Find out more about this project at the following adress : https://www.ulule.com/noob-le-jeu-video/ .
 
+<b>AUTHORS</b> : Wael BEN HADJ YAHIA, Dorian HERVE
+
 <b>CONTRIBUTING</b> : In order to improve this application, we suggest to implement further results trimming options, as well as diversify visualization options.
 
 <b>CREDITS</b> : We would like to thank Mr. Antoine GIRARD and Mr. Vincent COUALLIER for their directives that led to the successful completion of this project.
